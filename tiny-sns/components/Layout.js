@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import store from '../common/store';
 
 export default class Layout extends React.Component {
     render() {
@@ -20,7 +21,12 @@ export default class Layout extends React.Component {
                             </li>
                         </ul>
                         <div className="form-inline my-2 my-lg-0">
-                            정보
+                            { store.user !== null &&
+                            <span>{ store.user.name }님 반갑습니다.</span>
+                            }
+                            { store.user === null &&
+                            <span>로그인 해주세요</span>
+                            }
                         </div>
                     </div>
                 </nav>
