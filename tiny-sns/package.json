@@ -1,12 +1,15 @@
 {
   "scripts": {
-    "start": "next"
+    "start": "NODE_ENV=development node server.js"
   },
   "dependencies": {
+    "express": "^4.16.4",
     "firebase": "^5.6.0",
     "mobx": "^5.7.0",
     "mobx-react": "^5.4.2",
     "next": "^7.0.2",
+    "next-routes": "^1.4.2",
+    "prettier": "1.15.3",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "uuid": "^3.3.2"

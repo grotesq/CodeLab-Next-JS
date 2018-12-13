@@ -1,7 +1,7 @@
-import {observable} from "mobx";
+import { observable } from "mobx";
 
 class Store {
-    @observable user = null;
+  @observable user = null;
 }
 
 export default new Store();
