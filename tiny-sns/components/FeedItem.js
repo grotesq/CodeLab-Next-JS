@@ -1,21 +1,21 @@
 import React from 'react';
-import { Link } from "../routes";
+import { Link } from '../routes';
 
 class FeedItem extends React.Component {
   render() {
     return (
       <React.Fragment>
         <div className="card">
+          {this.props.feed.image && (
+            <div>
+              <img
+                src={this.props.feed.image}
+                alt=""
+                className={'card-img-top'}
+              />
+            </div>
+          )}
           <div className="card-body">
-            {this.props.feed.image && (
-              <div>
-                <img
-                  src={this.props.feed.image}
-                  alt=""
-                  style={{ maxHeight: '140px' }}
-                />
-              </div>
-            )}
             {this.props.feed.content}
 
             {!!this.props.useViewButton && (

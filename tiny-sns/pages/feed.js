@@ -37,7 +37,11 @@ class Feed extends React.Component {
           )}
         </Head>
 
-        <FeedItem feed={this.props.feed} />
+        <div className="row">
+          <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+            <FeedItem feed={this.props.feed} />
+          </div>
+        </div>
       </Layout>
     );
   }

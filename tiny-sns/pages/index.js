@@ -173,11 +173,15 @@ class Index extends React.Component {
           </div>
         )}
 
-        <Masonry className={'ts-feed-list list-unstyled mt-4'} elementType={'ul'}>
+        <Masonry
+          className={'ts-feed-list list-unstyled mt-4'}
+          elementType={'ul'}
+          options={ { gutter: 10, horizontalOrder: true } }
+        >
           {this.data.feeds.map((feed, n) => (
             <li
               key={n.toString() + new Date().toString()}
-              style={{ minWidth: '12rem', maxWidth: '30rem' }}
+              style={{ width: '16rem', marginBottom: '10px' }}
             >
               <FeedItem feed={feed} useViewButton={true} />
             </li>
