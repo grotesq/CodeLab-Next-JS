@@ -1,14 +1,15 @@
-import React from "react";
-import Layout from "../components/Layout";
-import { observer } from "mobx-react";
-import store from "../common/store";
-import { observable } from "mobx";
-import uuid from "uuid/v4";
-import firebase from "../common/firebase";
-import db from "../common/firestore";
+import React from 'react';
+import Layout from '../components/Layout';
+import { observer } from 'mobx-react';
+import store from '../common/store';
+import { observable } from 'mobx';
+import uuid from 'uuid/v4';
+import firebase from '../common/firebase';
+import db from '../common/firestore';
 //import Link from 'next/link';
-import { Link } from "../routes";
-import FeedItem from "../components/FeedItem";
+import { Link } from '../routes';
+import FeedItem from '../components/FeedItem';
+import Masonry from 'react-masonry-component';
 
 class Data {
   @observable uploadedUrl = null;
@@ -21,8 +22,8 @@ class Index extends React.Component {
 
   static async getInitialProps() {
     const results = await db
-      .collection("feeds-test")
-      .orderBy("updated_at", "desc")
+      .collection('feeds-test')
+      .orderBy('updated_at', 'desc')
       .get();
 
     const feeds = [];
@@ -40,8 +41,8 @@ class Index extends React.Component {
 
     this.data.feeds = props.feeds;
 
-    db.collection("feeds-test")
-      .orderBy("updated_at", "desc")
+    db.collection('feeds-test')
+      .orderBy('updated_at', 'desc')
       .onSnapshot(results => {
         this.data.feeds = [];
         results.forEach(doc => {
@@ -74,7 +75,7 @@ class Index extends React.Component {
       })
       .catch(error => {
         console.log(error);
-        alert("로그인 실패: " + error.message);
+        alert('로그인 실패: ' + error.message);
       });
   };
   write = () => {
@@ -97,16 +98,16 @@ class Index extends React.Component {
     }
 
     const uid = uuid();
-    db.collection("feeds-test")
+    db.collection('feeds-test')
       .doc(uid)
       .set(requestData)
       .then(response => {
         this.data.uploadedUrl = null;
-        this.textarea.value = "";
+        this.textarea.value = '';
       })
       .catch(error => {
         console.log(error);
-        alert("작성 실패: " + error.message);
+        alert('작성 실패: ' + error.message);
       });
   };
 
@@ -120,11 +121,11 @@ class Index extends React.Component {
 
     ref
       .child(
-        "images/" +
+        'images/' +
           store.user.uid +
-          "/" +
+          '/' +
           new Date().toString() +
-          "_" +
+          '_' +
           file.name,
       )
       .put(file, metadata)
@@ -135,7 +136,7 @@ class Index extends React.Component {
       })
       .catch(error => {
         console.log(error);
-        alert("Error: " + error.message);
+        alert('Error: ' + error.message);
       });
   };
 
@@ -150,15 +151,15 @@ class Index extends React.Component {
         {store.user !== null && (
           <div>
             {this.data.uploadedUrl && (
-              <div className={"mb-2"}>
+              <div className={'mb-2'}>
                 <img
                   src={this.data.uploadedUrl}
                   alt=""
-                  style={{ maxHeight: "200px" }}
+                  style={{ maxHeight: '200px', maxWidth: '100%' }}
                 />
               </div>
             )}
-            <div className={"mb-2"}>
+            <div className={'mb-2'}>
               <input type="file" onChange={this.onFileSelect} />
             </div>
             <textarea
@@ -172,18 +173,16 @@ class Index extends React.Component {
           </div>
         )}
 
-        <ul className="mt-4">
+        <Masonry className={'ts-feed-list list-unstyled mt-4'} elementType={'ul'}>
           {this.data.feeds.map((feed, n) => (
-            <li key={n.toString() + new Date().toString()}>
-              <FeedItem feed={feed} />
-              <div>
-                <Link route={"/feed/" + feed.id}>
-                  <a>자세히 보기</a>
-                </Link>
-              </div>
+            <li
+              key={n.toString() + new Date().toString()}
+              style={{ minWidth: '12rem', maxWidth: '30rem' }}
+            >
+              <FeedItem feed={feed} useViewButton={true} />
             </li>
           ))}
-        </ul>
+        </Masonry>
       </Layout>
     );
   }
